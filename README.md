@@ -14,7 +14,7 @@ This approach aims to be a deeper and less narrative Grails integration than the
 [plugins]: http://grails.org/plugins/
 [Swagger]: https://github.com/wordnik/swagger-core
 
-**Current Version 0.1**
+**Current Version 0.1 - not released yet - comming soon**
 
 Getting Started
 ---
