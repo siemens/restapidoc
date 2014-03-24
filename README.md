@@ -4,9 +4,9 @@ restapidoc
 This is a RESTful API documentation plugin for the [Grails][Grails] web application framework.
 Very much inspired by [Swagger][Swagger] API documentation, this plugin reuses the available information of
 Grails Domain classes to minimize documentation effort and to improve consistency.
-This approach aims to be a deeper and less narrative Grails integration than the original [Swagger][Swagger] JAX-RS idea:
-* extending Grails RestController
-* using Grails HalRenderer
+This approach aims to be a deeper and less narrative Grails integration than the original [Swagger][Swagger] JAX-RS idea. It
+* is extending the Grails RestController
+* is using Grails HalRenderer
 * uses Annotations just for documentation purpose and not for semantic information
 * is as concise as possible
 
@@ -17,7 +17,7 @@ This approach aims to be a deeper and less narrative Grails integration than the
 **Current Version 0.1**
 
 <p align="center">
-  <img src="https://github.com/siemens/screenshot1.png" alt="Grails restapidoc"/>
+  <img src="https://github.com/siemens/restapidoc/screenshot1.png" alt="Grails restapidoc"/>
 </p>
 
 
