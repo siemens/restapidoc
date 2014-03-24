@@ -1,4 +1,4 @@
-restapidoc
+restapidoc (available soon!)
 ==========
 
 This is a RESTful API documentation plugin for the [Grails][Grails] web application framework.
@@ -17,7 +17,7 @@ This approach aims to be a deeper and less narrative Grails integration than the
 **Current Version 0.1**
 
 <p align="center">
-  <img src="https://github.com/siemens/restapidoc/screenshot1.png" alt="Grails restapidoc"/>
+  <img src="https://github.com/siemens/restapidoc/blob/master/screenshot1.png" alt="Grails restapidoc"/>
 </p>
 
 
@@ -34,6 +34,7 @@ Quick Start
 
 * edit your BootStrap.groovy and add the call apiDocumentationService.init(), so this plugin searches for all Grails Domain classes and Controllers and builds up internally some documentation classes:
 
+```Groovy
 	class BootStrap {
 		def api	DocumentationService
 		def init = { servletContext ->
@@ -42,19 +43,22 @@ Quick Start
 		def destroy = {
 		}
 	}
+```
 
 * edit your sping/resources.groovy, add e.g. HalJsonRenderer:
 
+```Groovy
 	import grails.rest.render.hal.HalJsonCollectionRenderer
 	import grails.rest.render.hal.HalJsonRenderer
 	beans = {
 		halPCollectionRenderer(HalJsonCollectionRenderer, Pet)
 		halPRenderer(HalJsonRenderer, Pet)
 	}
-
+```
 
 * add documentation to your Grails Domains e.g.:
 
+```Groovy
 	import restapidoc.annotations.ApiDescription
 	import restapidoc.annotations.ApiProperty
 
@@ -63,9 +67,11 @@ Quick Start
 		@ApiProperty(description = "Binomial name")
     		String name 
 	}
+```
 
 * add documentation to your Grails Controller. If you want some generic Documentation for RestfulControllers, you can extend DocumentedRestfulController e.g. here PetController:
 
+```Groovy
 	import restapidoc.DocumentedRestfulController
 	import restapidoc.annotations.ApiDescription
 
@@ -76,10 +82,23 @@ Quick Start
 			super(Pet)
 		}
 	}
+```
 
 * start your Grails app and open the Api Controller, e.g. http://localhost:8080/HalTest/apiBrowse/index
 * you can find this sample as fully running Grails Application under https://github.com/muenchhausen/HalTest
 
+API Documentation
+-----------------
+The following Annotations - similar like Swagger - are available:
+* ApiIgnore: element will not be ignored in documentation
+* ApiDescription: used for Domain classes and Controller documentation
+* ApiProperty: domain property
+* ApiParam: paramter of a controller
+* ApiParams: a list of ApiParam
+* ApiOperation: controller operation
+* ApiResponse: controller operation response
+* ApiResponses: List of ApiResponse
+* DeleteMethod / GetMethod / PostMethod / PutMethod: marks controller operation as RESTful CRUD 
 
 License
 -------
