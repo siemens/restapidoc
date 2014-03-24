@@ -16,10 +16,7 @@ This approach aims to be a deeper and less narrative Grails integration than the
 
 **Current Version 0.1**
 
-<p align="center">
-  <img src="https://github.com/siemens/restapidoc/blob/master/screenshot1.png" alt="Grails restapidoc"/>
-</p>
-
+![Grails restapidoc](https://github.com/siemens/restapidoc/blob/master/screenshot1.png?raw=true)
 
 
 Quick Start
