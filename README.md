@@ -24,11 +24,13 @@ Quick Start
 * it is recommended to use Grails >= 2.3.7, please configure it as required by Grails.
 * Download this project by git clone e.g. to directory restapidoc.
 * cd restapidoc, test it
+```
     grails test-app --echoOut
+```
 * Create a new Grails project parallel to restapidoc. Edit BuildConfig.groovy, add:
-
+```
 	grails.plugin.location.'restapidoc'="../restapidoc"
-
+```
 * edit your BootStrap.groovy and add the call apiDocumentationService.init(), so this plugin searches for all Grails Domain classes and Controllers and builds up internally some documentation classes:
 
 ```Groovy
