@@ -1,4 +1,4 @@
-restapidoc (available soon!)
+restapidoc
 ==========
 
 This is a RESTful API documentation plugin for the [Grails][Grails] web application framework.
