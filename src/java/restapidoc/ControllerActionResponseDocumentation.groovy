@@ -22,6 +22,6 @@ package restapidoc
  * @since 0.1
  */
 class ControllerActionResponseDocumentation {
-	Integer code
-	String reason
+    Integer code
+    String reason
 }

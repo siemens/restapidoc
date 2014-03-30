@@ -24,12 +24,12 @@ import org.codehaus.groovy.grails.commons.GrailsDomainClass
  * @since 0.1
  */
 class DomainDocumentation {
-	GrailsDomainClass domainClass
-	String name
-	String plural
-	String description
+    GrailsDomainClass domainClass
+    String name
+    String plural
+    String description
 
-	List<DomainPropertyDocumentation> domainProperties
+    List<DomainPropertyDocumentation> domainProperties
 
     ControllerDocumentation controller
 }

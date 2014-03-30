@@ -22,13 +22,13 @@ package restapidoc
  * @since 0.1
  */
 class DomainPropertyDocumentation {
-	String name
-	String description
-	Class type
+    String name
+    String description
+    Class type
 
-	Boolean isNullable
+    Boolean isNullable
 
     String range
 
-	Boolean isCollection
+    Boolean isCollection
 }

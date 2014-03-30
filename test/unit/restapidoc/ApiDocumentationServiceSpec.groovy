@@ -16,25 +16,25 @@
 
 package restapidoc
 
-import grails.test.mixin.Mock
-import grails.test.mixin.TestFor
 import grails.artefact.Artefact
 import grails.persistence.Entity
 import grails.rest.RestfulController
+import grails.test.mixin.Mock
+import grails.test.mixin.TestFor
 import grails.test.mixin.TestMixin
 import grails.test.mixin.support.GrailsUnitTestMixin
 import grails.transaction.Transactional
+import restapidoc.annotations.ApiDescription
+import restapidoc.annotations.ApiIgnore
 import restapidoc.annotations.ApiOperation
 import restapidoc.annotations.ApiParam
 import restapidoc.annotations.ApiParams
+import restapidoc.annotations.ApiProperty
 import restapidoc.annotations.ApiResponse
 import restapidoc.annotations.ApiResponses
 import restapidoc.annotations.DeleteMethod
-import restapidoc.annotations.ApiDescription
 import restapidoc.annotations.GetMethod
-import restapidoc.annotations.ApiIgnore
 import restapidoc.annotations.PostMethod
-import restapidoc.annotations.ApiProperty
 import restapidoc.annotations.PutMethod
 import spock.lang.Specification
 
@@ -47,7 +47,6 @@ import spock.lang.Specification
 @TestFor(ProductController)
 @Mock([Product,ProductController])
 class ApiDocumentationServiceSpec extends Specification {
-
 
     void "Test that DomainDocumentation includes everything from a DomainClass"() {
         given: "a DomainClass Product"

@@ -35,16 +35,14 @@ Quick Start
 
 ```Groovy
 	class BootStrap {
-		def api	DocumentationService
+		def apiDocumentationService
 		def init = { servletContext ->
 			apiDocumentationService.init()
-		}
-		def destroy = {
 		}
 	}
 ```
 
-* edit your sping/resources.groovy, add e.g. HalJsonRenderer:
+* edit your spring/resources.groovy, add e.g. HalJsonRenderer:
 
 ```Groovy
 	import grails.rest.render.hal.HalJsonCollectionRenderer
@@ -64,7 +62,7 @@ Quick Start
 	@ApiDescription(description = "Endangered Animals")
 	class Pet {
 		@ApiProperty(description = "Binomial name")
-    		String name 
+    	String name 
 	}
 ```
 

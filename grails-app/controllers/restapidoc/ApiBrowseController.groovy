@@ -27,7 +27,7 @@ import org.apache.log4j.Logger
  * @since 0.1
  */
 class ApiBrowseController {
-    def grailsApplication
+
     def apiDocumentationService
 
     def logger = Logger.getLogger('restapidoc')
@@ -56,6 +56,7 @@ class ApiBrowseController {
         def domainClass = apiDocumentationService.domainClasses[dc]
         if (!domainClass) {
             render ""
+            return
         }
 
         return [controllerClasses: domainClass.controller, domainClass: domainClass, domainClasses: domainClasses]
@@ -68,6 +69,7 @@ class ApiBrowseController {
         def domainClass = apiDocumentationService.domainClasses[dc]
         if (!domainClass) {
             render ""
+            return
         }
 
         return [domainClass: domainClass, domainClasses: domainClasses]
