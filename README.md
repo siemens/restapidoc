@@ -31,16 +31,6 @@ Quick Start
 ```
 	grails.plugin.location.'restapidoc'="../restapidoc"
 ```
-* edit your BootStrap.groovy and add the call apiDocumentationService.init(), so this plugin searches for all Grails Domain classes and Controllers and builds up internally some documentation classes:
-
-```Groovy
-	class BootStrap {
-		def apiDocumentationService
-		def init = { servletContext ->
-			apiDocumentationService.init()
-		}
-	}
-```
 
 * edit your spring/resources.groovy, add e.g. HalJsonRenderer:
 

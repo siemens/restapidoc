@@ -10,4 +10,8 @@ class RestapidocGrailsPlugin {
     ]
     def issueManagement = [system: 'GITHUB', url: 'https://github.com/siemens/restapidoc/issues']
     def scm = [url: 'https://github.com/siemens/restapidoc']
+
+    def doWithApplicationContext = { ctx ->
+        ctx.apiDocumentationService.init()
+    }
 }
