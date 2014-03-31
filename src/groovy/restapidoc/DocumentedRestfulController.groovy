@@ -18,7 +18,10 @@ package restapidoc
 
 import grails.rest.RestfulController
 import grails.transaction.Transactional
-import org.apache.log4j.Logger
+
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
 import restapidoc.annotations.ApiIgnore
 import restapidoc.annotations.ApiOperation
 import restapidoc.annotations.ApiParam
@@ -39,7 +42,7 @@ import restapidoc.annotations.PutMethod
  * @since 0.1
  */
 class DocumentedRestfulController<T> extends RestfulController {
-    def logger = Logger.getLogger('restapidoc')
+    Logger logger = LoggerFactory.getLogger('restapidoc')
 
     DocumentedRestfulController(Class<T> resource) {
         super(resource)

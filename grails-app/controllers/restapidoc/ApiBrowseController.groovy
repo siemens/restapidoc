@@ -17,7 +17,9 @@
 package restapidoc
 
 import groovyx.net.http.RESTClient
-import org.apache.log4j.Logger
+
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * Controller for displaying and testing documentation that is collected by ApiDocumentationService
@@ -30,7 +32,7 @@ class ApiBrowseController {
 
     def apiDocumentationService
 
-    def logger = Logger.getLogger('restapidoc')
+    Logger logger = LoggerFactory.getLogger('restapidoc')
 
     def index() {
     }
