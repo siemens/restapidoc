@@ -98,18 +98,21 @@ class ApiDocumentationServiceSpec extends Specification {
             controller.description=="Health Products Controller"
 
         when: "checking method index"
-            def indexMethod = controller.actions.find {it.methodName == "index"}
+            def indexMethods = controller.actions.findAll {it.methodName == "index"}
 
         then: "parameter max and q must exist"
-            indexMethod.methodName == "index"
-            indexMethod.parameters[0].name == "max"
-            indexMethod.parameters[1].name == "q"
+            indexMethods.size() == 1
+            indexMethods[0].methodName == "index"
+            indexMethods[0].parameters.size() == 2
+            indexMethods[0].parameters[0].name == "max"
+            indexMethods[0].parameters[1].name == "q"
 
         when: "checking method show"
-            def showMethod = controller.actions.find {it.methodName == "show"}
+            def showMethods = controller.actions.findAll {it.methodName == "show"}
 
         then: "parameter id must exist"
-            showMethod.parameters[0].name == "id"
+            showMethods.size() == 1
+            showMethods[0].parameters[0].name == "id"
 
     }
 
