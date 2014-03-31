@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ApiDescription {
-	String name() default "";           // if empty the Controller name will be used
-	String plural() default "";         // if empty the Controller name will be used
-	String description() default "";
+    String name() default "";           // if empty the Controller name will be used
+    String plural() default "";         // if empty the Controller name will be used
+    String description() default "";
 }

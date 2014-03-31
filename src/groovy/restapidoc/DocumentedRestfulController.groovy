@@ -18,7 +18,10 @@ package restapidoc
 
 import grails.rest.RestfulController
 import grails.transaction.Transactional
-import org.apache.log4j.Logger
+
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
 import restapidoc.annotations.ApiIgnore
 import restapidoc.annotations.ApiOperation
 import restapidoc.annotations.ApiParam
@@ -39,34 +42,34 @@ import restapidoc.annotations.PutMethod
  * @since 0.1
  */
 class DocumentedRestfulController<T> extends RestfulController {
-    def logger = Logger.getLogger('restapidoc')
+    Logger logger = LoggerFactory.getLogger('restapidoc')
 
     DocumentedRestfulController(Class<T> resource) {
         super(resource)
     }
-
 
     @Override
     protected List<T> listAllResources(Map params) {
         // todo: same with grails withCriteria based queries
 
         def query = params?.q
-        if (query) {
-            def domainClass = grailsApplication.getDomainClass(resource.name)
-            def persistentProps = domainClass.persistentProperties
-
-            def queryMap = [:]
-            query.split('\\+').each {expr ->
-                def nv = expr.split(':')
-                if (nv[0] in persistentProps)
-                    queryMap.put (nv[0],nv[1])
-                else
-                    assert new java.lang.IllegalArgumentException("query parameter unknown. It must be one of ${persistentProps}")
-            }
-            return resource.findAllWhere(queryMap)
-        } else {
+        if (!query) {
             return resource.list(params)
         }
+
+        def domainClass = grailsApplication.getDomainClass(resource.name)
+        def persistentProps = domainClass.persistentProperties
+
+        def queryMap = [:]
+        query.split('\\+').each {expr ->
+            def nv = expr.split(':')
+            if (!(nv[0] in persistentProps)) {
+                throw new IllegalArgumentException("query parameter unknown. It must be one of ${persistentProps}")
+            }
+
+            queryMap.put (nv[0],nv[1])
+        }
+        return resource.findAllWhere(queryMap)
     }
 
     @Override
@@ -115,7 +118,6 @@ class DocumentedRestfulController<T> extends RestfulController {
 
     @Override
     protected Map getParametersToBind() {
-        super
         def rawData
 
         def asJSON = request.getJSON()
@@ -140,8 +142,9 @@ class DocumentedRestfulController<T> extends RestfulController {
             } catch (NoSuchFieldException ex) {
                 return
             }
-            if (ignore)
+            if (ignore) {
                 return
+            }
 
             if (p && p.type == Date && value && !(value instanceof Date)) {
                 if (value instanceof Map) {
