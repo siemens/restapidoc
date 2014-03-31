@@ -31,20 +31,8 @@ Quick Start
 ```
 	grails.plugin.location.'restapidoc'="../restapidoc"
 ```
-* edit your BootStrap.groovy and add the call apiDocumentationService.init(), so this plugin searches for all Grails Domain classes and Controllers and builds up internally some documentation classes:
 
-```Groovy
-	class BootStrap {
-		def api	DocumentationService
-		def init = { servletContext ->
-			apiDocumentationService.init()
-		}
-		def destroy = {
-		}
-	}
-```
-
-* edit your sping/resources.groovy, add e.g. HalJsonRenderer:
+* edit your spring/resources.groovy, add e.g. HalJsonRenderer:
 
 ```Groovy
 	import grails.rest.render.hal.HalJsonCollectionRenderer
@@ -64,7 +52,7 @@ Quick Start
 	@ApiDescription(description = "Endangered Animals")
 	class Pet {
 		@ApiProperty(description = "Binomial name")
-    		String name 
+    	String name 
 	}
 ```
 

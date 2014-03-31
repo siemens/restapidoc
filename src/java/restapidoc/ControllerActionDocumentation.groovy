@@ -22,27 +22,27 @@ package restapidoc
  * @since 0.1
  */
 class ControllerActionDocumentation {
-	String uri
-	String methodName
-	String httpMethod
-	String operation
-	String notes
+    String uri
+    String methodName
+    String httpMethod
+    String operation
+    String notes
     String sample
 
-	def inputDataType
-	def outputDataType
-	List<ControllerActionParameterDocumentation> parameters
-	List<ControllerActionResponseDocumentation> responses
+    def inputDataType
+    def outputDataType
+    List<ControllerActionParameterDocumentation> parameters
+    List<ControllerActionResponseDocumentation> responses
 
-	String getUriView() {
-		if (parameters.find({ it.name == 'id' && it.isRequired == true })) {
-			def u = uri
-			if (u.endsWith('/')) {
-				return "${u}{id}"
-			} else {
-				return "${u}/{id}"
-			}
-		}
-		return uri
-	}
+    String getUriView() {
+        if (!parameters.find({ it.name == 'id' && it.isRequired == true })) {
+            return uri
+        }
+
+        if (uri.endsWith('/')) {
+            return "${uri}{id}"
+        }
+
+        return "${uri}/{id}"
+    }
 }

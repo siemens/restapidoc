@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ApiProperty {
-	String description() default "";
+    String description() default "";
 
     /**
      * use as default Domain constraints, but it is possible to overwrite using keywords

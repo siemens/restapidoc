@@ -48,7 +48,7 @@ import java.lang.reflect.Method
 @Transactional
 class ApiDocumentationService {
     def grailsApplication
-    static def IGNORE_PROPERTIES = ['class','errors','metaClass','version','']
+    static IGNORE_PROPERTIES = ['class','errors','metaClass','version','']
     static Map<String, DomainDocumentation> domainClasses = [:]
 
     def init() {
@@ -63,205 +63,203 @@ class ApiDocumentationService {
         def resource = controller.getPropertyValue('resource')
 
         // if it is a RestfulController
-        if (resource) {
-            def domainClassName = resource.simpleName
+        if (!resource) {
+            return
+        }
 
-            GrailsDomainClass domainClass = grailsApplication.domainClasses.find({ it.clazz.simpleName == domainClassName })
+        def domainClassName = resource.simpleName
 
-            ApiIgnore ignoreDomain = domainClass.clazz.getAnnotation(ApiIgnore)
-            if ( ignoreDomain )
-                return
+        GrailsDomainClass domainClass = grailsApplication.domainClasses.find({ it.clazz.simpleName == domainClassName })
 
-            if (!domainClasses[domainClassName]) {
-                domainClasses[domainClassName] = new DomainDocumentation()
-                domainClasses[domainClassName].domainClass = domainClass
-                domainClasses[domainClassName].name = domainClassName
-                ApiDescription desc = domainClass.clazz.getAnnotation(ApiDescription)
-                if (desc) {
-                    domainClasses[domainClassName].name = desc.name()
-                    domainClasses[domainClassName].plural = desc.plural()
-                    domainClasses[domainClassName].description = desc.description()
-                }
-                domainClasses[domainClassName].domainProperties = []
-                def persistentProps = domainClass.persistentProperties
+        ApiIgnore ignoreDomain = domainClass.clazz.getAnnotation(ApiIgnore)
+        if ( ignoreDomain ) {
+            return
+        }
 
-                persistentProps.each { GrailsDomainClassProperty prop ->
-                    ApiIgnore ignore = domainClass.clazz.getDeclaredField(prop.name).getAnnotation(ApiIgnore)
-                    if (ignore || prop.name in IGNORE_PROPERTIES) {
-                        return
-                    }
-                    DomainPropertyDocumentation dpd = new DomainPropertyDocumentation()
-                    dpd.name = prop.name
-                    dpd.type = prop.type
-                    dpd.isNullable = false
-                    if (prop.isOneToMany() || prop.isManyToMany()) {
-                        if (prop.referencedDomainClass) {
-                            dpd.type = prop.referencedDomainClass.clazz
-                        }
-                        dpd.isCollection = true
-                    } else {
-                        dpd.isCollection = false
-                    }
-                    ApiProperty propAnn = domainClass.clazz.getDeclaredField(prop.name).getAnnotation(ApiProperty)
-                    if (propAnn) {
-                        dpd.description = propAnn.description()
-                        dpd.range = propAnn.range()
-                    }
-                    if (!dpd.range) {
-                        ConstrainedProperty cp = domainClass.constrainedProperties[prop.name]
-                        dpd.isNullable = cp.nullable
-                        if (cp.inList) {
-                            dpd.range = "in ${cp.inList.toString()}"
-                        } else if (cp.min && cp.max) {
-                            dpd.range = "between ${cp.min} and ${cp.max}"
-                        } else if (cp.min) {
-                            dpd.range = "min ${cp.min}"
-                        } else if (cp.max) {
-                            dpd.range = "max ${cp.max}"
-                        } else if (cp.maxSize) {
-                            dpd.range = "maxSize ${cp.maxSize}"
-                        } else if (cp.minSize) {
-                            dpd.range = "minSize ${cp.minSize}"
-                        }
-                    }
-                    domainClasses[domainClassName].domainProperties << dpd
-                }
-
-            }
-            def cd = new ControllerDocumentation()
-            cd.controllerClass = controller
-
-            ApiDescription desc = controller.clazz.getAnnotation(ApiDescription)
+        if (!domainClasses[domainClassName]) {
+            domainClasses[domainClassName] = new DomainDocumentation()
+            domainClasses[domainClassName].domainClass = domainClass
+            domainClasses[domainClassName].name = domainClassName
+            ApiDescription desc = domainClass.clazz.getAnnotation(ApiDescription)
             if (desc) {
-                cd.name = desc.name()
-                cd.plural = desc.plural()
-                cd.description = desc.description()
+                domainClasses[domainClassName].name = desc.name()
+                domainClasses[domainClassName].plural = desc.plural()
+                domainClasses[domainClassName].description = desc.description()
             }
-            cd.name = cd.name ?: controller.naturalName
-            cd.plural = cd.plural ?: controller.naturalName
-            cd.logicalName = controller.logicalPropertyName
+            domainClasses[domainClassName].domainProperties = []
+            def persistentProps = domainClass.persistentProperties
 
-            cd.actions = []
-
-            def translation = ['domainClass.name': domainClasses[domainClassName].name, 'domainClass.plural': (domainClasses[domainClassName].plural ?: domainClasses[domainClassName].name)]
-
-            def methods = getSortedMethods(controller.clazz)
-            def methodsToUris = [:]
-            for (String uri in controller.getURIs()) {
-                def methodName = controller.getMethodActionName(uri)
-                if (!methodsToUris[methodName]) {
-                    methodsToUris[methodName] = []
+            persistentProps.each { GrailsDomainClassProperty prop ->
+                ApiIgnore ignore = domainClass.clazz.getDeclaredField(prop.name).getAnnotation(ApiIgnore)
+                if (ignore || prop.name in IGNORE_PROPERTIES) {
+                    return
                 }
-                methodsToUris[methodName] << uri
+                DomainPropertyDocumentation dpd = new DomainPropertyDocumentation()
+                dpd.name = prop.name
+                dpd.type = prop.type
+                dpd.isNullable = false
+                if (prop.isOneToMany() || prop.isManyToMany()) {
+                    if (prop.referencedDomainClass) {
+                        dpd.type = prop.referencedDomainClass.clazz
+                    }
+                    dpd.isCollection = true
+                } else {
+                    dpd.isCollection = false
+                }
+                ApiProperty propAnn = domainClass.clazz.getDeclaredField(prop.name).getAnnotation(ApiProperty)
+                if (propAnn) {
+                    dpd.description = propAnn.description()
+                    dpd.range = propAnn.range()
+                }
+                if (!dpd.range) {
+                    ConstrainedProperty cp = domainClass.constrainedProperties[prop.name]
+                    dpd.isNullable = cp.nullable
+                    if (cp.inList) {
+                        dpd.range = "in ${cp.inList.toString()}"
+                    } else if (cp.min && cp.max) {
+                        dpd.range = "between ${cp.min} and ${cp.max}"
+                    } else if (cp.min) {
+                        dpd.range = "min ${cp.min}"
+                    } else if (cp.max) {
+                        dpd.range = "max ${cp.max}"
+                    } else if (cp.maxSize) {
+                        dpd.range = "maxSize ${cp.maxSize}"
+                    } else if (cp.minSize) {
+                        dpd.range = "minSize ${cp.minSize}"
+                    }
+                }
+                domainClasses[domainClassName].domainProperties << dpd
             }
-            def uri2method = [:]
-            for (def methodName in methodsToUris.keySet()) {
-                def shortestUrl = methodsToUris[methodName].sort({ it.size() })[0]
-                uri2method[shortestUrl] = methodName
+        }
+
+        def cd = new ControllerDocumentation(controllerClass: controller)
+
+        ApiDescription desc = controller.clazz.getAnnotation(ApiDescription)
+        if (desc) {
+            cd.name = desc.name()
+            cd.plural = desc.plural()
+            cd.description = desc.description()
+        }
+        cd.name = cd.name ?: controller.naturalName
+        cd.plural = cd.plural ?: controller.naturalName
+        cd.logicalName = controller.logicalPropertyName
+
+        cd.actions = []
+
+        def translation = ['domainClass.name': domainClasses[domainClassName].name, 'domainClass.plural': (domainClasses[domainClassName].plural ?: domainClasses[domainClassName].name)]
+
+        def methods = getSortedMethods(controller.clazz)
+        def methodsToUris = [:]
+        for (String uri in controller.getURIs()) {
+            def methodName = controller.getMethodActionName(uri)
+            if (!methodsToUris[methodName]) {
+                methodsToUris[methodName] = []
             }
-            for (def uri in uri2method.keySet().sort()) {
-                def methodName = uri2method[uri]
-                Method method = methods.find({ it.name == methodName })
-                if (method) {
-                    def cad = new ControllerActionDocumentation()
-                    cad.uri = uri
-                    cad.methodName = methodName
-                    cad.parameters = []
-                    cad.responses = []
+            methodsToUris[methodName] << uri
+        }
+        def uri2method = [:]
+        for (methodName in methodsToUris.keySet()) {
+            def shortestUrl = methodsToUris[methodName].sort({ it.size() })[0]
+            uri2method[shortestUrl] = methodName
+        }
+        for (uri in uri2method.keySet().sort()) {
+            def methodName = uri2method[uri]
+            Method method = methods.find({ it.name == methodName })
+            if (!method) {
+                continue
+            }
 
-                    if (method.isAnnotationPresent(GetMethod)) {
-                        cad.httpMethod = 'get'
-                    } else if (method.isAnnotationPresent(PostMethod)) {
-                        cad.httpMethod = 'post'
-                    } else if (method.isAnnotationPresent(PutMethod)) {
-                        cad.httpMethod = 'put'
-                    } else if (method.isAnnotationPresent(DeleteMethod)) {
-                        cad.httpMethod = 'delete'
-                    } else {
-                        continue
-                    }
+            def cad = new ControllerActionDocumentation(uri: uri, methodName: methodName, parameters: [], responses: [])
 
-                    ApiOperation ao = method.getAnnotation(ApiOperation)
-                    if (ao) {
-                        cad.operation = translateString(ao.value(), translation)
-                        cad.notes = translateString(ao.notes(), translation)
-                        cad.sample = translateString(ao.sample(), translation)
-                    }
+            if (method.isAnnotationPresent(GetMethod)) {
+                cad.httpMethod = 'get'
+            } else if (method.isAnnotationPresent(PostMethod)) {
+                cad.httpMethod = 'post'
+            } else if (method.isAnnotationPresent(PutMethod)) {
+                cad.httpMethod = 'put'
+            } else if (method.isAnnotationPresent(DeleteMethod)) {
+                cad.httpMethod = 'delete'
+            } else {
+                continue
+            }
 
-                    ApiResponses ar = method.getAnnotation(ApiResponses)
-                    if (ar) {
-                        ar.value().each { ApiResponse arr ->
-                            cad.responses << new ControllerActionResponseDocumentation(code: arr.code(), reason: translateString(arr.message(), translation))
-                        }
-                    }
+            ApiOperation ao = method.getAnnotation(ApiOperation)
+            if (ao) {
+                cad.operation = translateString(ao.value(), translation)
+                cad.notes = translateString(ao.notes(), translation)
+                cad.sample = translateString(ao.sample(), translation)
+            }
 
-                    def paramTypes = method.getParameterTypes()
-                    method.getParameterAnnotations().eachWithIndex { pAnns, i ->
-                        ApiParam ap = pAnns.find({ it instanceof ApiParam })
-                        ApiParams aps = pAnns.find({ it instanceof ApiParams })
+            ApiResponses ar = method.getAnnotation(ApiResponses)
+            ar?.value().each { ApiResponse arr ->
+                cad.responses << new ControllerActionResponseDocumentation(code: arr.code(), reason: translateString(arr.message(), translation))
+            }
 
-                        def params = aps?.value() ?: []
-                        if (ap) {
-                            params << ap
-                        }
+            def paramTypes = method.getParameterTypes()
+            method.getParameterAnnotations().eachWithIndex { pAnns, i ->
+                ApiParam ap = pAnns.find({ it instanceof ApiParam })
+                ApiParams aps = pAnns.find({ it instanceof ApiParams })
 
-                        params.each { it ->
-                            def capd = new ControllerActionParameterDocumentation()
-                            capd.name = it.name()
-                            capd.description = translateString(it.value(), translation)
-                            capd.isRequired = it.required()
-                            capd.range = it.allowableValues()
-                            capd.defaultValue = it.defaultValue()
-                            capd.type = paramTypes[i]
-                            cad.parameters << capd
-                        }
-                    }
+                def params = aps?.value() ?: []
+                if (ap) {
+                    params << ap
+                }
 
-                    if (RestfulController.isAssignableFrom(controller.clazz)) {
-                        // make some special tweaks, if this is a default RestfulController
-                        if (methodName == 'index') {
-                            if (!cad.parameters.find({ it.name == 'max' })) {
-                                def capd = new ControllerActionParameterDocumentation()
-                                capd.name = 'max'
-                                capd.description = 'maximum count of results returned'
-                                capd.isRequired = false
-                                capd.range = "> 1"
-                                capd.type = Long
-                                cad.parameters << capd
-                            }
-                        } else if (methodName == 'show') {
-                            cad.outputDataType = domainClass.clazz
-                        } else if (methodName == 'save') {
-                            cad.inputDataType = domainClass.clazz
-                        } else if (methodName == 'update') {
-                            cad.inputDataType = domainClass.clazz
-                            cad.outputDataType = domainClass.clazz
-                        } else if (methodName == 'delete') {
-                        }
-                    }
-
-                    cd.actions << cad
+                params.each { it ->
+                    def capd = new ControllerActionParameterDocumentation()
+                    capd.name = it.name()
+                    capd.description = translateString(it.value(), translation)
+                    capd.isRequired = it.required()
+                    capd.range = it.allowableValues()
+                    capd.defaultValue = it.defaultValue()
+                    capd.type = paramTypes[i]
+                    cad.parameters << capd
                 }
             }
-            if (cd.actions.size()) {
-                domainClasses[domainClassName].controller = cd
+
+            if (RestfulController.isAssignableFrom(controller.clazz)) {
+                // make some special tweaks, if this is a default RestfulController
+                if (methodName == 'index') {
+                    if (!cad.parameters.find({ it.name == 'max' })) {
+                        def capd = new ControllerActionParameterDocumentation()
+                        capd.name = 'max'
+                        capd.description = 'maximum count of results returned'
+                        capd.isRequired = false
+                        capd.range = "> 1"
+                        capd.type = Long
+                        cad.parameters << capd
+                    }
+                } else if (methodName == 'show') {
+                    cad.outputDataType = domainClass.clazz
+                } else if (methodName == 'save') {
+                    cad.inputDataType = domainClass.clazz
+                } else if (methodName == 'update') {
+                    cad.inputDataType = domainClass.clazz
+                    cad.outputDataType = domainClass.clazz
+                } else if (methodName == 'delete') {
+                }
             }
+
+            cd.actions << cad
+        }
+        if (cd.actions) {
+            domainClasses[domainClassName].controller = cd
         }
     }
 
-    static def getSortedMethods(Class aClass) {
+    static getSortedMethods(Class aClass) {
         def r = []
         aClass.getDeclaredMethods().each { m ->
             r << m
         }
         if (aClass.superclass) {
-            r += getSortedMethods(aClass.superclass)
+            r.addAll getSortedMethods(aClass.superclass)
         }
         return r
     }
 
     static String translateString(String input, Map translations) {
-        String output = new String(input)
+        String output = input
         translations.each { k, v ->
             output = output.replaceAll('\\#\\{' + k + '\\}', v)
         }

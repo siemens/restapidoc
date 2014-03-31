@@ -22,11 +22,11 @@ package restapidoc
  * @since 0.1
  */
 class ControllerActionParameterDocumentation {
-	String name
-	String description
-	Class type
+    String name
+    String description
+    Class type
 
-	Boolean isRequired
-	String defaultValue
-	String range
+    Boolean isRequired
+    String defaultValue
+    String range
 }

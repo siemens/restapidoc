@@ -23,9 +23,8 @@ import java.text.SimpleDateFormat
  * @author Derk Muenchhausen
  * @since 0.1
  */
-
 class DateUtils {
-    static def DATE_FORMATTERS = [:]
+    static DATE_FORMATTERS = [:]
 
     static Date parseDate(String formatted, format = null) {
         if (format)
@@ -40,5 +39,4 @@ class DateUtils {
         }
         return DATE_FORMATTERS[f]
     }
-
 }

@@ -24,11 +24,11 @@ import org.codehaus.groovy.grails.commons.GrailsControllerClass
  * @since 0.1
  */
 class ControllerDocumentation {
-	GrailsControllerClass controllerClass
+    GrailsControllerClass controllerClass
     String logicalName
     String name
     String plural
     String description
 
-	List<ControllerActionDocumentation> actions
+    List<ControllerActionDocumentation> actions
 }
