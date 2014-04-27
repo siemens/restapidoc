@@ -6,7 +6,7 @@ class RestapidocGrailsPlugin {
 Very much inspired by Swagger API documentation, this plugin reuses the available information
 of Grails Domain classes and Controllers to minimize documentation effort and to improve consistency.
 '''
-    def documentation = "http://grails.org/plugin/restapidoc"
+    def documentation = "https://github.com/siemens/restapidoc"
     def license = "APACHE"
     def developers = [
         [name: 'Derk Muenchhausen', email: "derk@muenchhausen.de"]
