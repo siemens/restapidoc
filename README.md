@@ -14,7 +14,7 @@ This approach aims to be a deeper and less narrative Grails integration than the
 [plugins]: http://grails.org/plugins/
 [Swagger]: https://github.com/wordnik/swagger-core
 
-**Current Version 0.1**
+**Current Version 0.1.1**
 
 ![Grails restapidoc](https://github.com/siemens/restapidoc/blob/master/screenshot1.png?raw=true)
 
@@ -22,12 +22,16 @@ This approach aims to be a deeper and less narrative Grails integration than the
 Quick Start
 -----------
 * it is recommended to use Grails >= 2.3.7, please configure it as required by Grails.
-* Download this project by git clone e.g. to directory restapidoc.
-* cd restapidoc, test it
+* EITHER Use the Binary by adding it to your grails-app/conf/BuildConfig.groovy:
+```
+compile ":restapidoc:0.1.1"
+```
+* OR: Download this project by git clone e.g. to directory restapidoc.
+cd restapidoc, test it
 ```
     grails test-app --echoOut
 ```
-* Create a new Grails project parallel to restapidoc. Edit BuildConfig.groovy, add:
+Create a new Grails project parallel to restapidoc. Edit BuildConfig.groovy, add:
 ```
 	grails.plugin.location.'restapidoc'="../restapidoc"
 ```
@@ -86,6 +90,12 @@ The following Annotations - similar like Swagger - are available:
 * ApiResponse: controller operation response
 * ApiResponses: List of ApiResponse
 * DeleteMethod / GetMethod / PostMethod / PutMethod: marks controller operation as RESTful CRUD 
+
+
+History
+-------
+* 0.1 initial version
+* 0.1.1 publish binary version of this plugin 
 
 License
 -------
