@@ -1,4 +1,4 @@
-restapidoc
+restapidoc [![Build Status](https://travis-ci.org/siemens/restapidoc.svg?branch=master)](https://travis-ci.org/siemens/restapidoc)
 ==========
 
 This is a RESTful API documentation plugin for the [Grails][Grails] web application framework.
