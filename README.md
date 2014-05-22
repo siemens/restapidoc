@@ -27,10 +27,16 @@ Quick Start
 compile ":restapidoc:0.1.1"
 ```
 * OR: Download this project by git clone e.g. to directory restapidoc.
-cd restapidoc, test it
-```
+    * cd restapidoc
+    * to test it:
+    ```
     grails test-app --echoOut
-```
+    ```
+    * The project provides a Grails wrapper, so if you don't have Grails installed, run the tests with
+    ```
+    grailsw test-app --echoOut
+    ```
+
 Create a new Grails project parallel to restapidoc. Edit BuildConfig.groovy, add:
 ```
 	grails.plugin.location.'restapidoc'="../restapidoc"
