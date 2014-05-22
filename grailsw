@@ -3,7 +3,7 @@
 ##  Grails JVM Bootstrap for UN*X                                           ##
 ##                                                                          ##
 ##############################################################################
-
+ 
 PROGNAME=`basename "$0"`
 DIRNAME=`dirname "$0"`
 
