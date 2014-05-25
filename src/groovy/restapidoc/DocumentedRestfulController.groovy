@@ -82,7 +82,6 @@ class DocumentedRestfulController<T> extends RestfulController {
         super.index(max)
     }
 
-    @Override
     @GetMethod
     @ApiOperation(value = "Retrieve #{domainClass.name}", notes = "returns a specific #{domainClass.name} object")
     @ApiResponses(value = [ @ApiResponse(code = 404, message = "#{domainClass.name} not found") ])
@@ -98,7 +97,6 @@ class DocumentedRestfulController<T> extends RestfulController {
         super.save()
     }
 
-    @Override
     @Transactional
     @PutMethod
     @ApiOperation(value = "Update #{domainClass.name}", notes = "changes a specific #{domainClass.name} object")
@@ -107,7 +105,6 @@ class DocumentedRestfulController<T> extends RestfulController {
         super.update()
     }
 
-    @Override
     @Transactional
     @DeleteMethod
     @ApiOperation(value = "Delete #{domainClass.name}", notes = "deletes a specific #{domainClass.name} object")

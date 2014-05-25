@@ -14,18 +14,18 @@ This approach aims to be a deeper and less narrative Grails integration than the
 [plugins]: http://grails.org/plugins/
 [Swagger]: https://github.com/wordnik/swagger-core
 
-**Current Version 0.1.1**
+**Current Version 0.1.2**
 
 ![Grails restapidoc](https://github.com/siemens/restapidoc/blob/master/screenshot1.png?raw=true)
 
 
 Quick Start
 -----------
-* it is recommended to use Grails >= 2.3.7, please configure it as required by Grails.
-* EITHER Use the Binary by adding it to your grails-app/conf/BuildConfig.groovy:
-```
-compile ":restapidoc:0.1.1"
-```
+* it is recommended to use Grails >= 2.3.7. Please install it as required by Grails or use the grailsw wrapper.
+* EITHER Use the Binary by adding restapidoc it to your grails-app/conf/BuildConfig.groovy:
+    ```
+    compile ":restapidoc:0.1.2"
+    ```
 * OR: Download this project by git clone e.g. to directory restapidoc.
     * cd restapidoc
     * to test it:
@@ -37,10 +37,10 @@ compile ":restapidoc:0.1.1"
     grailsw test-app --echoOut
     ```
 
-Create a new Grails project parallel to restapidoc. Edit BuildConfig.groovy, add:
-```
+    * Create a new Grails project parallel to restapidoc. Edit BuildConfig.groovy, add:
+    ```
 	grails.plugin.location.'restapidoc'="../restapidoc"
-```
+    ```
 
 * edit your spring/resources.groovy, add e.g. HalJsonRenderer:
 
@@ -100,8 +100,9 @@ The following Annotations - similar like Swagger - are available:
 
 History
 -------
+* 0.1.2 Grails 2.4.0 support
+* 0.1.1 publish binary version of this plugin
 * 0.1 initial version
-* 0.1.1 publish binary version of this plugin 
 
 License
 -------

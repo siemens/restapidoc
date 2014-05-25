@@ -51,7 +51,6 @@ class ApiDocumentationServiceSpec extends Specification {
     void "Test that DomainDocumentation includes everything from a DomainClass"() {
         given: "a DomainClass Product"
             Map<String, DomainDocumentation> domainClasses = [:]
-            def grailsApplication = GrailsUnitTestMixin.grailsApplication
 
         when: "registering them for documentation"
             grailsApplication.controllerClasses.each { it ->
@@ -84,7 +83,6 @@ class ApiDocumentationServiceSpec extends Specification {
     void "Test that DomainDocumentation includes everything from a Controller"() {
         given: "a Product DomainClass and a ProductController"
             Map<String, DomainDocumentation> domainClasses = [:]
-            def grailsApplication = GrailsUnitTestMixin.grailsApplication
 
         when: "registering it for documentation"
             grailsApplication.controllerClasses.each { it ->
@@ -119,7 +117,6 @@ class ApiDocumentationServiceSpec extends Specification {
     void "Test that response definition of Domain Property is correctly extracted"() {
         given: "a Product DomainClass and a ProductController"
             Map<String, DomainDocumentation> domainClasses = [:]
-            def grailsApplication = GrailsUnitTestMixin.grailsApplication
 
         when: "registering it for documentation"
             grailsApplication.controllerClasses.each { it ->
@@ -189,7 +186,6 @@ class ProductController extends RestfulController {
         super.index(max)
     }
 
-    @Override
     @GetMethod
     @ApiOperation(value = "Retrieve #{domainClass.name}", notes = "returns a specific #{domainClass.name} object")
     @ApiResponses(value = [ @ApiResponse(code = 404, message = "#{domainClass.name} not found") ])
@@ -205,7 +201,6 @@ class ProductController extends RestfulController {
         super.save()
     }
 
-    @Override
     @Transactional
     @PutMethod
     @ApiOperation(value = "Update #{domainClass.name}", notes = "changes a specific #{domainClass.name} object")
@@ -214,7 +209,6 @@ class ProductController extends RestfulController {
         super.update()
     }
 
-    @Override
     @Transactional
     @DeleteMethod
     @ApiOperation(value = "Delete #{domainClass.name}", notes = "deletes a specific #{domainClass.name} object")

@@ -17,16 +17,19 @@ grails.project.dependency.resolution = {
     }
 
     dependencies {
-        runtime('org.codehaus.groovy.modules.http-builder:http-builder:0.5.1') {
+        /* runtime('org.codehaus.groovy.modules.http-builder:http-builder:0.5.1') {
             excludes 'xalan'
             excludes 'xml-apis'
             excludes 'groovy'
         }
+        */
+        runtime "org.springframework:spring-expression:$springVersion"
+        runtime "org.springframework:spring-aop:$springVersion"
     }
 
     plugins {
-	compile ":rest:0.8"
-        build ":tomcat:7.0.52.1"
+	    compile ":rest:0.8"
+        build ":tomcat:7.0.53"
         build ':release:3.0.1', ':rest-client-builder:1.0.3', {
             export = false
         }
