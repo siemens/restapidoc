@@ -87,7 +87,7 @@ Quick Start
 API Documentation
 -----------------
 The following Annotations - similar like Swagger - are available:
-* ApiIgnore: element will not be ignored in documentation
+* ApiIgnore: element will be ignored in documentation
 * ApiDescription: used for Domain classes and Controller documentation
 * ApiProperty: domain property
 * ApiParam: paramter of a controller
