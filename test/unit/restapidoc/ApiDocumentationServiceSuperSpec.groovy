@@ -64,7 +64,7 @@ class ApiDocumentationServiceSuperSpec extends Specification {
 
 @Entity
 @ApiDescription(name="Corporate Product", plural="Corporate Products", description = "Corporate Product Description")
-class CorporateProduct {
+class CorporateProduct extends Product {
     @ApiProperty(description = "unique order number for corporate customers")
     Integer orderNumber
 }

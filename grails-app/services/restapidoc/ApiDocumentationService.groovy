@@ -35,6 +35,7 @@ import restapidoc.annotations.PostMethod
 import restapidoc.annotations.ApiProperty
 import restapidoc.annotations.PutMethod
 
+import java.lang.annotation.Annotation
 import java.lang.reflect.Method
 
 /**
@@ -58,6 +59,24 @@ class ApiDocumentationService {
         }
     }
 
+    /**
+     * Searches the class hierarchy for declared fields (including private)
+     * @param clazz the class to inspect
+     * @param name the name of the field to inspect
+     * @param annotationClass the type of annotation we're interested in
+     * @return
+     */
+    private static Annotation getAnnotationForClassField(Class clazz, String name, Class<Annotation> annotationClass) {
+        while (clazz) {
+            try {
+                return clazz.getDeclaredField(name).getAnnotation(annotationClass)
+            } catch(NoSuchFieldException) {
+                clazz = clazz.superclass
+            }
+        }
+        throw NoSuchFieldException(name)
+    }
+
     protected static void addDomainAndControllerClass(GrailsControllerClass controller, grailsApplication, LinkedHashMap<String, DomainDocumentation> domainClasses) {
         // RestfulController do have the property resource
         def resource = controller.getPropertyValue('resource')
@@ -72,6 +91,7 @@ class ApiDocumentationService {
         GrailsDomainClass domainClass = grailsApplication.domainClasses.find({ it.clazz.simpleName == domainClassName })
 
         ApiIgnore ignoreDomain = domainClass.clazz.getAnnotation(ApiIgnore)
+
         if ( ignoreDomain ) {
             return
         }
@@ -90,7 +110,8 @@ class ApiDocumentationService {
             def persistentProps = domainClass.persistentProperties
 
             persistentProps.each { GrailsDomainClassProperty prop ->
-                ApiIgnore ignore = domainClass.clazz.getDeclaredField(prop.name).getAnnotation(ApiIgnore)
+                ApiIgnore ignore = getAnnotationForClassField(domainClass.clazz, prop.name, ApiIgnore)
+
                 if (ignore || prop.name in IGNORE_PROPERTIES) {
                     return
                 }
@@ -106,7 +127,8 @@ class ApiDocumentationService {
                 } else {
                     dpd.isCollection = false
                 }
-                ApiProperty propAnn = domainClass.clazz.getDeclaredField(prop.name).getAnnotation(ApiProperty)
+                ApiProperty propAnn = getAnnotationForClassField(domainClass.clazz, prop.name, ApiProperty)
+
                 if (propAnn) {
                     dpd.description = propAnn.description()
                     dpd.range = propAnn.range()
