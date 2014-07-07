@@ -66,7 +66,6 @@ class ApiDocumentationServiceSpec extends Specification {
             doc.description == "Health Products"
             doc.name == "HProduct"
             doc.plural == "HProducts"
-            doc.description == "Health Products"
 
         then: "DomainDocumentation must not include property privateReference"
             !doc.domainProperties.findAll { it -> it.name == "privateReference" }
