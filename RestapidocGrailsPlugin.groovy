@@ -1,5 +1,5 @@
 class RestapidocGrailsPlugin {
-    def version = "0.1.2"
+    def version = "0.1.3"
     def grailsVersion = "2.3 > *"
     def title = "Restapidoc Plugin"
     def description = '''a RESTful API documentation plugin for the Grails web application framework.
