@@ -193,6 +193,20 @@ class ApiDocumentationService {
 
             def cad = new ControllerActionDocumentation(uri: uri, methodName: methodName, parameters: [], responses: [])
 
+            // First check if it's a RestfulController
+            if (RestfulController.isAssignableFrom(controller.clazz)) {
+                if (methodName == 'index' || methodName == 'show') {
+                    cad.httpMethod = 'get'
+                } else if (methodName == 'save') {
+                    cad.httpMethod = 'post'
+                } else if (methodName == 'update') {
+                    cad.httpMethod = 'put'
+                } else if (methodName == 'delete') {
+                    cad.httpMethod = methodName
+                }
+            }
+
+            // Next, check for annotations. This could override the above
             if (method.isAnnotationPresent(GetMethod)) {
                 cad.httpMethod = 'get'
             } else if (method.isAnnotationPresent(PostMethod)) {
@@ -201,7 +215,8 @@ class ApiDocumentationService {
                 cad.httpMethod = 'put'
             } else if (method.isAnnotationPresent(DeleteMethod)) {
                 cad.httpMethod = 'delete'
-            } else {
+            } else if (cad.httpMethod == null) {
+                // If nobody assigned a httpMethod, skip this method
                 continue
             }
 

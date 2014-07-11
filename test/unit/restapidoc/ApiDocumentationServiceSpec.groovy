@@ -24,18 +24,7 @@ import grails.test.mixin.TestFor
 import grails.test.mixin.TestMixin
 import grails.test.mixin.support.GrailsUnitTestMixin
 import grails.transaction.Transactional
-import restapidoc.annotations.ApiDescription
-import restapidoc.annotations.ApiIgnore
-import restapidoc.annotations.ApiOperation
-import restapidoc.annotations.ApiParam
-import restapidoc.annotations.ApiParams
-import restapidoc.annotations.ApiProperty
-import restapidoc.annotations.ApiResponse
-import restapidoc.annotations.ApiResponses
-import restapidoc.annotations.DeleteMethod
-import restapidoc.annotations.GetMethod
-import restapidoc.annotations.PostMethod
-import restapidoc.annotations.PutMethod
+import restapidoc.annotations.*
 import spock.lang.Specification
 
 /**
