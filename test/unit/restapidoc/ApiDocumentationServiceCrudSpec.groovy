@@ -77,6 +77,31 @@ class ApiDocumentationServiceCrudSpec extends Specification {
             deleteMethod.parameters[0].name == "id"
 
     }
+
+    /*
+     * see https://github.com/siemens/restapidoc/issues/8
+     */
+    void "Test that an ignored CRUD operation will not be displayed"() {
+        given: "a simple DomainClass and a simple non REST Controller"
+            Map<String, DomainDocumentation> domainClasses = [:]
+
+        when: "registering it for documentation"
+            grailsApplication.controllerClasses.each { it ->
+                ApiDocumentationService.addDomainAndControllerClass(it, grailsApplication, domainClasses)
+            }
+            def controller = domainClasses.get("SimpleProduct").controller
+
+        then: "ControllerDocumentation must be set"
+            controller instanceof ControllerDocumentation
+            controller.name == "Simple Product Controller"
+            controller.description=="Simple Products Controller"
+
+        when: "checking method save"
+            def indexMethods = controller.actions.findAll {it.methodName == "save"}
+
+        then: "method must not exist"
+            indexMethods.size() == 0
+    }
 }
 
 @Entity
@@ -101,6 +126,7 @@ class SimpleProductController extends RestfulController {
     ]) Integer max) {
     }
 
+    @ApiIgnore
     @ApiOperation(value = "Create #{domainClass.name}", notes = "creates a new #{domainClass.name} object")
     def save() {
     }

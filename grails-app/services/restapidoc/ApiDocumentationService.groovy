@@ -207,7 +207,9 @@ class ApiDocumentationService {
             }
 
             // Next, check for annotations. This could override the above
-            if (method.isAnnotationPresent(GetMethod)) {
+            if (method.isAnnotationPresent(ApiIgnore)) {
+                continue
+            } else if (method.isAnnotationPresent(GetMethod)) {
                 cad.httpMethod = 'get'
             } else if (method.isAnnotationPresent(PostMethod)) {
                 cad.httpMethod = 'post'
