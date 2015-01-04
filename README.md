@@ -100,7 +100,7 @@ The following Annotations - similar like Swagger - are available:
 
 History
 -------
-* 0.1.3 Grails 2.4.4 tested, no new version required
+* 0.1.4 Grails 2.4.4 tested
 * 0.1.3 Grails 2.4.2 tested, issue#4 and issue#5, inherited domain attributes
 * 0.1.2 Grails 2.4.0 support
 * 0.1.1 publish binary version of this plugin
