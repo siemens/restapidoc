@@ -14,7 +14,7 @@ This approach aims to be a deeper and less narrative Grails integration than the
 [plugins]: http://grails.org/plugins/
 [Swagger]: https://github.com/wordnik/swagger-core
 
-**Current Version 0.1.3**
+**Current Version 0.1.4**
 
 ![Grails restapidoc](https://github.com/siemens/restapidoc/blob/master/screenshot1.png?raw=true)
 
@@ -24,7 +24,7 @@ Quick Start
 * it is recommended to use Grails >= 2.3.7. It is best tested with Grails 2.4.4. Please install it as required by Grails or use the grailsw wrapper.
 * EITHER Use the Binary by adding restapidoc it to your grails-app/conf/BuildConfig.groovy:
     ```
-    compile ":restapidoc:0.1.3"
+    compile ":restapidoc:0.1.4"
     ```
 * OR: Download this project by git clone e.g. to directory restapidoc.
     * cd restapidoc
