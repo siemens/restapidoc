@@ -9,6 +9,8 @@ This approach aims to be a deeper and less narrative Grails integration than the
 * is using Grails HalRenderer
 * uses Annotations just for documentation purpose and not for semantic information
 * is as concise as possible
+* reuses already some basic annotations from Swagger but
+* it is not yet "Swagger compatible" 
 
 [Grails]: http://grails.org/
 [plugins]: http://grails.org/plugins/
